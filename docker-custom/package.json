@@ -29,7 +29,8 @@
         }
     ],
     "dependencies": {
-        "node-red": "2.0.6"
+        "node-red": "2.0.6",
+		"node-red-node-watson": "~0.9.5"
     },
     "engines": {
         "node": ">=12"

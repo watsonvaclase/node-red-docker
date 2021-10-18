@@ -20,7 +20,7 @@ RUN set -ex && \
         openssl \
         openssh-client \
         ca-certificates && \
-    mkdir -p /usr/src/node-red /data && \
+    mkdir -p /usr/src/node-red/nodecerts /data && \
     deluser --remove-home node && \
     adduser -h /usr/src/node-red -D -H node-red -u 1000 && \
     chown -R node-red:root /data && chmod -R g+rwX /data && \
@@ -43,9 +43,11 @@ COPY flows.json /data
 FROM base AS build
 
 # Install Build tools
+# JBO: added openssl genrsa
 RUN apk add --no-cache --virtual buildtools build-base linux-headers udev python && \
     npm install --unsafe-perm --no-update-notifier --no-fund --only=production && \
     /tmp/remove_native_gpio.sh && \
+    openssl genrsa -out /usr/src/node-red/nodecerts/node-key.pem 2048 && openssl req -new -sha256 -key /usr/src/node-red/nodecerts/node-key.pem -out /usr/src/node-red/nodecerts/node-csr.pem -subj "/C=ES/ST=Andalucia/L=Sevilla/O=ACME S.A./OU=Watson/CN=dockerwatson.acme.org/emailAddress=jimbotel@gmail.com" && openssl x509 -req -in /usr/src/node-red/nodecerts/node-csr.pem -signkey /usr/src/node-red/nodecerts/node-key.pem -out /usr/src/node-red/nodecerts/node-cert.pem && \
     cp -R node_modules prod_node_modules
 
 #### Stage RELEASE #####################################################################################################
@@ -71,11 +73,18 @@ LABEL org.label-schema.build-date=${BUILD_DATE} \
     authors="Dave Conway-Jones, Nick O'Leary, James Thomas, Raymond Mouthaan"
 
 COPY --from=build /usr/src/node-red/prod_node_modules ./node_modules
+# JBO: copy nodecerts, settings.js, flows.json
+COPY --from=build /usr/src/node-red/nodecerts ./nodecerts
+COPY ./settings.node.js /data/settings.js
+COPY ./flows.json /data/flows.json
+
 
 # Chown, install devtools & Clean up
 RUN chown -R node-red:root /usr/src/node-red && \
+    chown node-red:node-red /data/settings.js /data/flows.json && \
     /tmp/install_devtools.sh && \
     rm -r /tmp/*
+
 
 USER node-red
 
@@ -93,5 +102,7 @@ EXPOSE 1880
 
 # Add a healthcheck (default every 30 secs)
 # HEALTHCHECK CMD curl http://localhost:1880/ || exit 1
+# JBO: dont use if the image is to be run on a raspberry (it hurts SD card performance)
+# HEALTHCHECK CMD ps -ef | sed 's#^.*node-red  ##' | grep node-red | grep -v grep || exit 1
 
 ENTRYPOINT ["npm", "start", "--cache", "/data/.npm", "--", "--userDir", "/data"]

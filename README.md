@@ -1,32 +1,22 @@
-# Node-RED Docker
+# Node-RED Docker - Watson va a Clase
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/node-red/node-red-docker.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/node-red/node-red-docker.svg?branch=master)](https://travis-ci.org/node-red/node-red-docker)
-[![DockerHub Pull](https://img.shields.io/docker/pulls/nodered/node-red.svg)](https://hub.docker.com/r/nodered/node-red/)
-[![DockerHub Stars](https://img.shields.io/docker/stars/nodered/node-red.svg?maxAge=2592000)](https://hub.docker.com/r/nodered/node-red/)
+Este repositorio describe el uso de Node-RED sobre Docker para el proyecto Watson va a Clase (https://www.watsonvaaclase.es) y tiene soporte para diversas arquitecturas 
+(amd64, arm32v6, arm32v7, arm64v8 y i386).
+Se asume estar familiarizado con Docker y el [Docker Command Line](https://docs.docker.com/engine/reference/commandline/cli/).
 
-This project describes some of the many ways Node-RED can be run under Docker and has support for multiple architectures (amd64, arm32v6, arm32v7, arm64v8, i386 and s390x).
-Some basic familiarity with Docker and the [Docker Command Line](https://docs.docker.com/engine/reference/commandline/cli/) is assumed.
+## Inicio Rápido
+Para ejecutar Docker en su forma más simple, tecleamos:
 
-**Note**: In version 1.2 we removed the named VOLUME from the build. It should not affect many users - but the details are [here](volumechanges.md).
+        docker run -it -p 1880:1880 -v node_red_data:/data --name minodered watsonvaclase/node-red
 
-As of Node-RED 1.0 this project provides the build for the `nodered/node-red` container on [Docker Hub](https://hub.docker.com/r/nodered/node-red/).
-
-Previous 0.20.x versions are still available at https://hub.docker.com/r/nodered/node-red-docker.
-
-## Quick Start
-To run in Docker in its simplest form just run:
-
-        docker run -it -p 1880:1880 -v node_red_data:/data --name mynodered nodered/node-red
-
-Let's dissect that command:
+Vamos a diseccionar el comando:
 
         docker run              - run this container, initially building locally if necessary
         -it                     - attach a terminal session so we can see what is going on
         -p 1880:1880            - connect local port 1880 to the exposed internal port 1880
         -v node_red_data:/data  - mount the host node_red_data directory to the container /data directory so any changes made to flows are persisted
-        --name mynodered        - give this machine a friendly local name
-        nodered/node-red        - the image to base it on - currently Node-RED v2.0.6
+        --name minodered        - give this machine a friendly local name
+        watsonvaclase/node-red  - the image to base it on - currently Node-RED v2.0.6
 
 
 Running that command should give a terminal window with a running instance of Node-RED.
@@ -118,15 +108,8 @@ The following table shows the variety of provided Node-RED images.
 | 2.0.6-12-arm32v6           |   12   | arm32v6  |   2.x 3.x  |  yes  | arm32v6/node:12-alpine |
 | 2.0.6-12-arm32v7           |   12   | arm32v7  |   2.x 3.x  |  yes  | arm32v7/node:12-alpine |
 | 2.0.6-12-arm64v8           |   12   | arm64v8  |   2.x 3.x  |  yes  | arm64v8/node:12-alpine |
-| 2.0.6-12-s390x             |   12   | s390x    |   2.x 3.x  |  yes  | s390x/node:12-alpine   |
 | 2.0.6-12-i386              |   12   | i386     |   2.x 3.x  |  yes  | i386/node:12-alpine    |
-|                            |        |          |            |       |                        |
-| 2.0.6-12-minimal-amd64     |   12   | amd64    |     no     |  no   | amd64/node:12-alpine   |
-| 2.0.6-12-minimal-arm32v6   |   12   | arm32v6  |     no     |  no   | arm32v6/node:12-alpine |
-| 2.0.6-12-minimal-arm32v7   |   12   | arm32v7  |     no     |  no   | arm32v7/node:12-alpine |
-| 2.0.6-12-minimal-arm64v8   |   12   | arm64v8  |     no     |  no   | arm64v8/node:12-alpine |
-| 2.0.6-12-minimal-s390x     |   12   | s390x    |     no     |  no   | s390x/node:12-alpine   |
-| 2.0.6-12-minimal-i386      |   12   | i386     |     no     |  no   | i386/node:12-alpine    |
+
 
 | **Tag**                    |**Node**| **Arch** | **Python** |**Dev**| **Base Image**         |
 |----------------------------|--------|----------|------------|-------|------------------------|
@@ -134,15 +117,8 @@ The following table shows the variety of provided Node-RED images.
 | 2.0.6-14-arm32v6           |   14   | arm32v6  |   2.x 3.x  |  yes  | arm32v6/node:14-alpine |
 | 2.0.6-14-arm32v7           |   14   | arm32v7  |   2.x 3.x  |  yes  | arm32v7/node:14-alpine |
 | 2.0.6-14-arm64v8           |   14   | arm64v8  |   2.x 3.x  |  yes  | arm64v8/node:14-alpine |
-| 2.0.6-14-s390x             |   14   | s390x    |   2.x 3.x  |  yes  | s390x/node:14-alpine   |
 | 2.0.6-14-i386              |   14   | i386     |   2.x 3.x  |  yes  | i386/node:14-alpine    |
-|                            |        |          |            |       |                        |
-| 2.0.6-14-minimal-amd64     |   14   | amd64    |     no     |  no   | amd64/node:14-alpine   |
-| 2.0.6-14-minimal-arm32v6   |   14   | arm32v6  |     no     |  no   | arm32v6/node:14-alpine |
-| 2.0.6-14-minimal-arm32v7   |   14   | arm32v7  |     no     |  no   | arm32v7/node:14-alpine |
-| 2.0.6-14-minimal-arm64v8   |   14   | arm64v8  |     no     |  no   | arm64v8/node:14-alpine |
-| 2.0.6-14-minimal-s390x     |   14   | s390x    |     no     |  no   | s390x/node:14-alpine   |
-| 2.0.6-14-minimal-i386      |   14   | i386     |     no     |  no   | i386/node:14-alpine    |
+
 
 - All images have bash, tzdata, nano, curl, git, openssl and openssh-client pre-installed to support Node-RED's Projects feature.
 
@@ -155,15 +131,7 @@ The following table shows the provided Manifest Lists.
 | latest-10, 2.0.6-12                    | nodered/node-red:2.0.6-12-arm32v6          |
 |                                        | nodered/node-red:2.0.6-12-arm32v7          |
 |                                        | nodered/node-red:2.0.6-12-arm64v8          |
-|                                        | nodered/node-red:2.0.6-12-s390x            |
 |                                        | nodered/node-red:2.0.6-12-i386             |
-|                                        |                                            |
-| latest-minimal, 2.0.6-minimal,         | nodered/node-red:2.0.6-12-amd64-minimal    |
-| latest-10-minimal, 2.0.6-12-minimal    | nodered/node-red:2.0.6-12-arm32v6-minimal  |
-|                                        | nodered/node-red:2.0.6-12-arm32v7-minimal  |
-|                                        | nodered/node-red:2.0.6-12-arm64v8-minimal  |
-|                                        | nodered/node-red:2.0.6-12-s390x-minimal    |
-|                                        | nodered/node-red:2.0.6-12-i386-minimal     |
 
 | **Tag**                                | **Node-RED Base Image**                    |
 |----------------------------------------|--------------------------------------------|
@@ -171,15 +139,8 @@ The following table shows the provided Manifest Lists.
 |                                        | nodered/node-red:2.0.6-14-arm32v6          |
 |                                        | nodered/node-red:2.0.6-14-arm32v7          |
 |                                        | nodered/node-red:2.0.6-14-arm64v8          |
-|                                        | nodered/node-red:2.0.6-14-s390x            |
 |                                        | nodered/node-red:2.0.6-14-i386             |
-|                                        |                                            |
-| latest-12-minimal, 2.0.6-12-minimal    | nodered/node-red:2.0.6-14-amd64-minimal    |
-|                                        | nodered/node-red:2.0.6-14-arm32v6-minimal  |
-|                                        | nodered/node-red:2.0.6-14-arm32v7-minimal  |
-|                                        | nodered/node-red:2.0.6-14-arm64v8-minimal  |
-|                                        | nodered/node-red:2.0.6-14-s390x-minimal    |
-|                                        | nodered/node-red:2.0.6-14-i386-minimal     |
+
 
 With the support of Docker manifest list, there is no need to explicitly add the tag for the architecture to use.
 When a docker run command or docker service command or docker stack command is executed, docker checks which architecture is required and verifies if it is available in the docker repository. If it does, docker pulls the matching image for it.
