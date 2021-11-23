@@ -44,7 +44,7 @@ FROM base AS build
 
 # Install Build tools
 # JBO: added openssl genrsa
-RUN apk add --no-cache --virtual buildtools build-base linux-headers udev python && \
+RUN apk add --no-cache --virtual buildtools build-base linux-headers udev python2 && \
     npm install --unsafe-perm --no-update-notifier --no-fund --only=production && \
     /tmp/remove_native_gpio.sh && \
     openssl genrsa -out /usr/src/node-red/nodecerts/node-key.pem 2048 && openssl req -new -sha256 -key /usr/src/node-red/nodecerts/node-key.pem -out /usr/src/node-red/nodecerts/node-csr.pem -subj "/C=ES/ST=Andalucia/L=Sevilla/O=ACME S.A./OU=Watson/CN=dockerwatson.acme.org/emailAddress=jimbotel@gmail.com" && openssl x509 -req -in /usr/src/node-red/nodecerts/node-csr.pem -signkey /usr/src/node-red/nodecerts/node-key.pem -out /usr/src/node-red/nodecerts/node-cert.pem && \
