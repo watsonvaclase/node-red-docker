@@ -16,7 +16,7 @@ Vamos a diseccionar el comando:
         -p 1880:1880            - connect local port 1880 to the exposed internal port 1880
         -v node_red_data:/data  - mount the host node_red_data directory to the container /data directory so any changes made to flows are persisted
         --name minodered        - give this machine a friendly local name
-        watsonvaclase/node-red  - the image to base it on - currently Node-RED v2.0.6
+        watsonvaclase/node-red  - the image to base it on - currently Node-RED v2.2.2
 
 
 Running that command should give a terminal window with a running instance of Node-RED.
@@ -24,7 +24,7 @@ Running that command should give a terminal window with a running instance of No
         Welcome to Node-RED
         ===================
 
-        10 Oct 12:57:10 - [info] Node-RED version: v2.0.6
+        10 Oct 12:57:10 - [info] Node-RED version: v2.2.2
         10 Oct 12:57:10 - [info] Node.js  version: v12.22.2
         10 Oct 12:57:10 - [info] Linux 4.19.76-linuxkit x64 LE
         10 Oct 12:57:11 - [info] Loading palette nodes
@@ -104,18 +104,17 @@ The following table shows the variety of provided Node-RED images.
 
 | **Tag**                    |**Node**| **Arch** | **Python** |**Dev**| **Base Image**         |
 |----------------------------|--------|----------|------------|-------|------------------------|
-| 2.2.0-12-amd64             |   12   | amd64    |   2.x 3.x  |  yes  | amd64/node:12-alpine   |
-| 2.2.0-12-arm32v6           |   12   | arm32v6  |   2.x 3.x  |  yes  | arm32v6/node:12-alpine |
-| 2.2.0-12-arm32v7           |   12   | arm32v7  |   2.x 3.x  |  yes  | arm32v7/node:12-alpine |
-| 2.2.0-12-arm64v8           |   12   | arm64v8  |   2.x 3.x  |  yes  | arm64v8/node:12-alpine |
-| 2.2.0-12-i386              |   12   | i386     |   2.x 3.x  |  yes  | i386/node:12-alpine    |
+| 2.2.2-12-amd64             |   12   | amd64    |   2.x 3.x  |  yes  | amd64/node:12-alpine   |
+| 2.2.2-12-arm32v6           |   12   | arm32v6  |   2.x 3.x  |  yes  | arm32v6/node:12-alpine |
+| 2.2.2-12-arm32v7           |   12   | arm32v7  |   2.x 3.x  |  yes  | arm32v7/node:12-alpine |
+| 2.2.2-12-arm64v8           |   12   | arm64v8  |   2.x 3.x  |  yes  | arm64v8/node:12-alpine |
 
 
 | **Tag**                    |**Node**| **Arch** | **Python** |**Dev**| **Base Image**         |
 |----------------------------|--------|----------|------------|-------|------------------------|
-| 2.2.0-14-amd64             |   14   | amd64    |   2.x 3.x  |  yes  | amd64/node:14-alpine   |
-| 2.2.0-14-arm32v6           |   14   | arm32v6  |   2.x 3.x  |  yes  | arm32v6/node:14-alpine |
-| 2.2.0-14-arm32v7           |   14   | arm32v7  |   2.x 3.x  |  yes  | arm32v7/node:14-alpine |
-| 2.2.0-14-arm64v8           |   14   | arm64v8  |   2.x 3.x  |  yes  | arm64v8/node:14-alpine |
-| 2.2.0-14-i386              |   14   | i386     |   2.x 3.x  |  yes  | i386/node:14-alpine    |
+| 2.2.2-14-amd64             |   14   | amd64    |   2.x 3.x  |  yes  | amd64/node:14-alpine   |
+| 2.2.2-14-arm32v6           |   14   | arm32v6  |   2.x 3.x  |  yes  | arm32v6/node:14-alpine |
+| 2.2.2-14-arm32v7           |   14   | arm32v7  |   2.x 3.x  |  yes  | arm32v7/node:14-alpine |
+| 2.2.2-14-arm64v8           |   14   | arm64v8  |   2.x 3.x  |  yes  | arm64v8/node:14-alpine |
+
 
